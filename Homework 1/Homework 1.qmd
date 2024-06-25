@@ -1,0 +1,84 @@
+---
+title: "Analysis of the `mtcars` dataset"
+author: "Bhagavath Kumar Krishnan | 23201408"
+format: pdf
+editor: visual
+execute: 
+  echo: false
+  warning: false
+---
+
+## Introduction
+
+The **`mtcars`** is a classic dataset that is available in R. The data was extracted from the 1974 *Motor Trend* US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models). (See [mtcars](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars) for more details).
+
+Here we will explore the relationship between a car's miles per gallon (MPG) and its horsepower (HP).
+
+## Data Overview
+
+Below are some descriptive statistics of the variables used in the plot, of `mtcars` dataset:
+
+```{r}
+#| label: summary_df
+
+# Loading necesssary libraries
+# for ploting and for the dataset mtcars
+library(ggplot2)
+library(datasets)
+
+# Loading the mtcars dataset
+data("mtcars")
+
+# Create a dataframe for summary statistics
+# Round to 2 decimal units
+summary_df <- data.frame(
+  Statistic = c('Mean', 'Median', 'Standard Deviation'),
+  MPG = round(c(mean(mtcars$mpg), median(mtcars$mpg), sd(mtcars$mpg)), 2),
+  HP = round(c(mean(mtcars$hp), median(mtcars$hp), sd(mtcars$hp)), 2)
+)
+
+# Display the summary statitics dataframe
+summary_df
+```
+
+## Scatter Plot
+
+Below is the scatter plot of the variables *MPG* against *HP*. This plot can be used to visualize the effect of the fuel efficiency (miles per gallon) change with respect to the horsepower of a car.
+
+```{r}
+#| label: plot
+#| fig-cap: "Relationship between miles per gallon (MPG) and horsepower (HP) in mtcars dataset"
+#| fig-width: 8
+#| fig-height: 6
+
+# Create the scatter plot
+ggplot(mtcars, aes(x=hp, y=mpg)) +
+  
+  # Point plot
+  geom_point() +
+  
+  # Line plot
+  geom_line(col = 'red') +
+  
+  # Change x limit
+  scale_x_continuous(limits = c(50, 350), breaks = seq(50, 350, by = 50)) +
+  
+  # Lables (title xlab and ylab)
+  labs(
+    title = "Scatter Plot of MPG vs. HP",
+    x = "Horsepower (HP)",
+    y = "Miles Per Gallon (MPG)"
+  ) +
+  
+  # Set the theme for the plot
+  theme_gray() +
+  
+  # Set title to center
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+## Conclusion
+
+From the above plot we can see that on moving right (when horsepower increases) the miles per gallon of the car tends to decrease, which implies that cars that are more powerful are typically less fuel efficient.
